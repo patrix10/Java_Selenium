@@ -33,7 +33,10 @@ public class BaseTest {
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\rahulshettyacademy\\resources\\GlobalData.properties");
 		prop.load(fis);
 		
-		String browserName = prop.getProperty("browser");
+		//give browser name globally on jenkins or terminal
+		String browserName = System.getProperty("browser")!= null ? System.getProperty("browser") : prop.getProperty("browser");
+		
+//		String browserName = prop.getProperty("browser");
 		
 		if(browserName.equalsIgnoreCase("chrome")) {
 //			ChromeOptions options = new ChromeOptions();
@@ -46,10 +49,6 @@ public class BaseTest {
 		}else if(browserName.equalsIgnoreCase("edge")) {
 			 driver = new EdgeDriver();
 		}
-		
-		if (driver == null) {
-            throw new RuntimeException("Browser not supported or invalid browser name in properties file!");
-        }
 		
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
